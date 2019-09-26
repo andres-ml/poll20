@@ -1,7 +1,6 @@
 export default {
-    template: `
-    <nav>
-        <div class="columns is-vcentered is-centered" style="margin: 50px auto">
+    template: /*html*/`
+        <div class="columns is-vcentered is-centered" style="margin: 20px auto">
             <div class="column is-narrow">
                 <img src="img/logo-2.png" style="width: 75px">
             </div>
@@ -10,5 +9,5 @@ export default {
                 <h2 class="subtitle">Board game voting and statistics for groups of friends</h2>
             </div>
         </div>
-    </nav>`,
+    `,
 }

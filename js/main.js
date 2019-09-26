@@ -1,46 +1,19 @@
-import Vue from 'https://cdn.jsdelivr.net/npm/vue@latest/dist/vue.esm.browser.min.js'
-import Header from './components/header.js'
-import About from './components/about.js'
+import './global.js';
+import router from './routes.js';
 
-Vue.use(VueRouter)
+const data = {
 
-const router = new VueRouter({
-    routes: [
-        {
-            path: '/about',
-            component: About,
-            children: [
-                {
-                    path: '',
-                    component: Header,
-                    name: "About Us Page",
-                },
-                {
-                    path: '*',
-                    redirect: '/about/main'
-                },
-            ]
-        },
-        {
-            path: '*',
-            redirect: '/about'
-        },
-    ]
-});
+};
 
 new Vue({
     el: '#app',
     router,
-    data: {},
-    template: `
+    data,
+    template: /*html*/`
         <div>
-            <top></top>
-            All content will appear below the horizontal line.
-            <hr>
-            <router-view></router-view>
+            <base-layout>
+                <router-view/>
+            </base-layout>
         </div>
     `,
-    components: {
-        'top': Header
-    },
 });
