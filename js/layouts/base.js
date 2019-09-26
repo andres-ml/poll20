@@ -1,4 +1,5 @@
 import Top from '../components/top.js'
+import Foot from '../components/foot.js'
 
 export default {
     template: /*html*/`
@@ -6,10 +7,11 @@ export default {
             <top></top>
             <hr>
             <slot/>
+            <foot/>
         </div>
     `,
     components: {
         'top': Top,
+        'foot': Foot,
     },
-    props: ['title']
 }

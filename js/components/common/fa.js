@@ -1,4 +1,8 @@
 export default {
-    template: '<i class="fa" :class="\'fa-\' + icon"></i>',
-    props: ['icon'],
+    template: /*html*/`
+    <span class="icon" :class="modifiers">
+        <i class="fa" :class="\'fa-\' + icon"></i>
+    </span>
+    `,
+    props: ['icon', 'modifiers'],
 }
