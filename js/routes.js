@@ -1,17 +1,29 @@
-import About from './components/about.js'
+import Rooms from './pages/rooms.js'
+import Room from './pages/room.js'
+import RoomCreate from './pages/rooms/create.js'
 
 Vue.use(VueRouter)
 
 const router = new VueRouter({
     routes: [
         {
-            path: '/about',
-            component: About,
-            name: "About Us Page",
+            path: '/rooms',
+            component: Rooms,
+            name: "rooms",
+        },
+        {
+            path: '/rooms/create',
+            component: RoomCreate,
+            name: 'room-create'
+        },
+        {
+            path: '/room/:id',
+            component: Room,
+            name: "room",
         },
         {
             path: '*',
-            redirect: '/about'
+            redirect: '/rooms'
         },
     ]
 });

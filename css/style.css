@@ -1,0 +1,59 @@
+.room > .title {
+    font-size: 24px;
+}
+
+.room > .subtitle {
+    font-size: 18px;
+}
+
+.room {
+    padding: 10px;
+    border-radius: 3px;
+    background: #f7f5f5;
+    display: block;
+    height: auto;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.rooms > .room:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.input {
+    box-shadow: none;
+}
+
+.centered-items {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 20px auto;
+}
+
+.top .logo {
+    margin: 0px 20px;
+}
+
+@media(max-width: 768px) {
+    .section {
+        padding: 10px;
+    }
+
+    .top {
+        margin: 0px;
+    }
+
+    .top + hr {
+        margin: 0px auto;
+    }
+
+    .title {
+        font-size: 18px;
+    }
+
+    .subtitle {
+        font-size: 16px;
+    }
+}

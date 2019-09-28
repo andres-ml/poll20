@@ -5,8 +5,10 @@ export default {
     template: /*html*/`
         <div>
             <top></top>
-            <hr>
-            <slot/>
+            <hr style="margin: 0px">
+            <div class="content">
+                <slot/>
+            </div>
             <foot/>
         </div>
     `,
