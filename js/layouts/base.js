@@ -6,7 +6,7 @@ export default {
         <div>
             <top></top>
             <hr style="margin: 0px">
-            <div class="content">
+            <div class="">
                 <slot/>
             </div>
             <foot/>

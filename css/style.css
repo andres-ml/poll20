@@ -1,12 +1,28 @@
-.room > .title {
+body {
+    max-width: 1000px;
+    margin: 0px auto;
+    background: white;
+}
+
+@media(min-width: 1000px) {
+    html {
+        background: #e1e6ee;
+    }
+
+    body {
+        margin-top: 50px;
+    }
+}
+
+.rooms > .room > .title {
     font-size: 24px;
 }
 
-.room > .subtitle {
+.rooms > .room > .subtitle {
     font-size: 18px;
 }
 
-.room {
+.item-list > .item {
     padding: 10px;
     border-radius: 3px;
     background: #f7f5f5;
@@ -16,7 +32,7 @@
     margin-bottom: 10px;
 }
 
-.rooms > .room:not(:last-child) {
+.item-list > .item:not(:last-child) {
     margin-bottom: 10px;
 }
 
@@ -36,9 +52,29 @@
     margin: 0px 20px;
 }
 
+.room > .level > .level-item > .router-link-exact-active .fa {
+    color: #43c3ff;
+}
+
+.level.inline-level {
+    margin-bottom: 0px;
+}
+
+.level.inline-level > .level-item {
+    margin-right: 0px !important;
+}
+
+.level.inline-level .button {
+    border-radius: 0px;
+}
+
+.section {
+    padding: 1.5rem;
+}
+
 @media(max-width: 768px) {
     .section {
-        padding: 10px;
+        padding: 1rem;
     }
 
     .top {
@@ -49,11 +85,19 @@
         margin: 0px auto;
     }
 
+    .top .centered-items {
+        justify-content: left;
+    }
+
     .title {
-        font-size: 18px;
+        font-size: 22px;
     }
 
     .subtitle {
-        font-size: 16px;
+        font-size: 18px;
     }
+}
+
+.game-list .game-item {
+    padding: 1rem;
 }

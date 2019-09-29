@@ -1,5 +1,5 @@
 import {autoFocus} from '../../components/mixins/autofocus.js'
-import {randomString} from '../../lib/utils.js'
+import Logic from '../../logic.js';
 
 const RoomCreate = {
     template: /*html*/`
@@ -9,7 +9,7 @@ const RoomCreate = {
                     <input class="input" placeholder="Room name" v-model="roomName" @keyup.enter="createRoom">
                 </div>
                 <div class="field">
-                    <input class="input" placeholder="Your name for the room" v-model="userName" @keyup.enter="createRoom" ref="userName">
+                    <input class="input" placeholder="Your alias within this room" v-model="userName" @keyup.enter="createRoom" ref="userName">
                 </div>
                 <div class="notification is-warning" v-if="!valid">
                     Please, fill both fields
@@ -37,16 +37,7 @@ const RoomCreate = {
                 return;
             }
 
-            const room = {
-                id: randomString(),
-                name: this.roomName,
-                games: [],
-                members: [{
-                    id: this.state.user.id,
-                    name: this.userName,
-                }],
-                votes: []
-            };
+            const room = Logic.createRoom(this.state.user.id, this.roomName, this.userName);
             this.state.rooms.push(room);
             this.$router.push({name: 'rooms'});
         }
