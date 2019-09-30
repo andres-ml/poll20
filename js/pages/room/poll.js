@@ -42,7 +42,7 @@ export default {
                                 <option value="">Choose winner (optional)</option>
                                 <option v-for="user in room.members" :value="user.id">{{ user.name }}</option>
                                 <option value="everyone">Everyone (co-op)</option>
-                                <option value="everyone">Nobody (co-op)</option>
+                                <option value="nobody">Nobody (co-op)</option>
                             </select>
                         </div>
                     </div>
