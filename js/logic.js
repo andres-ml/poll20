@@ -18,5 +18,21 @@ export default {
             name,
             votes: {},
         }
+    },
+    gameScore: (game, userId = null) => {
+        const weights = {
+            'up': 1,
+            'down': -1
+        };
+        return _(game.votes)
+            .filter((_, key) => userId === null || userId === key)
+            .map(vote => weights[vote.type]).sum();
+    },
+    logSession: (game, winnerUser) => {
+        return {
+            game,
+            winner: winnerUser,
+            created: new Date()
+        }
     }
 }

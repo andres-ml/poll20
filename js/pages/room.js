@@ -9,7 +9,7 @@ const Room = {
                 </div>
             </div>
             <section class="section">
-                <router-view :room="room"></router-view>
+                <router-view :room="room" :user="state.user"></router-view>
             </section>
         </div>
     `,
