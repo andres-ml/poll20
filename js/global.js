@@ -29,6 +29,15 @@ Vue.mixin({
         flashSet: function(item, property, value, emptyValue = '', timeoutInSeconds = 5) {
             this.$set(item, property, value);
             setTimeout(() => this.$set(item, property, emptyValue), timeoutInSeconds * 1000);
+        },
+        loadWhile: function(callback) {
+            const result = callback.apply(this, arguments);
+            const target = event.target;
+            if (result instanceof Promise && target.classList.contains('button')) {
+                target.classList.add('is-loading');
+                result.finally(() => target.classList.remove('is-loading'));
+            }
+            return result;
         }
     }
 })

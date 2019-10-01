@@ -11,7 +11,7 @@ const RoomJoin = {
                 <div class="notification is-warning" v-if="!valid">
                     Please enter your username
                 </div>
-                <button class="button is-primary is-fullwidth" @click="joinRoom">
+                <button class="button is-primary is-fullwidth" @click="loadWhile(joinRoom)">
                     Join room
                 </button>
             </div>
@@ -28,18 +28,33 @@ const RoomJoin = {
     created: function() {
         State.loadRoom(this.$route.params.id)
             .then(room => this.room = room)
-            .then(() => this.$refs['userName'].focus());
+            .then(() => {
+                // user already in room
+                if (this.state.user.rooms.indexOf(this.room.id) !== -1) {
+                    this.$router.push({name: 'rooms'});
+                }
+                else {
+                    this.$refs['userName'].focus();
+                }
+            });
     },
     methods: {
         joinRoom: function() {
             this.valid = !!this.userName;
-
             if (!this.valid) {
                 return;
             }
 
-            this.state.user.rooms.push(this.room.id);
-            this.$router.push({name: 'rooms'});
+            this.room.members.push({
+                id: this.state.user.id,
+                name: this.userName
+            });
+            
+            return State.saveRoom(this.room)
+                .then(() => {
+                    this.state.user.rooms.push(this.room.id);
+                    this.$router.push({name: 'rooms'});
+                });
         }
     }
 }

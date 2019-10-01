@@ -1,3 +1,5 @@
+import State from '../../state.js'
+
 export default {
     template: /*html*/`
         <div>
@@ -53,17 +55,32 @@ export default {
 
             <hr>
 
-            <button class="button is-danger is-fullwidth">
-                Leave room
-            </button>
+            <div class="field">
+                <button class="button is-danger is-fullwidth" @click="confirmRoomLeave = true">
+                    {{ confirmRoomLeave ? 'Are you sure?' : 'Leave room' }}
+                </button>
+            </div>
+            <div class="columns" v-if="confirmRoomLeave">
+                <div class="column">
+                    <button class="button is-danger is-fullwidth" @click="loadWhile(leaveRoom)">
+                        Leave {{ room.name }}
+                    </button>
+                </div>
+                <div class="column">
+                    <button class="button is-light is-fullwidth" @click="confirmRoomLeave = false">
+                        Cancel
+                    </button>
+                </div>
+            </div>
         </div>
     `,
-    props: ['room'],
+    props: ['room', 'user'],
     data: function() {
         return {
             recentlyCopied: false,
             gameIdToDelete: '',
             gameDeletedNotification: '',
+            confirmRoomLeave: false,
         }
     },
     computed: {
@@ -82,11 +99,15 @@ export default {
         },
         deleteGame: function() {
             this.room.games.splice(this.room.games.indexOf(this.gameToDelete), 1);
-            // we could choose not to keep the history, but we do for now
+            // if we wanted to delete history too:
             // this.room.history = this.room.history.filter(session => session.game !== this.gameToDelete.name)
 
             this.gameIdToDelete = ''
             this.flashSet(this, 'gameDeletedNotification', 'Game deleted successfully')
         },
+        leaveRoom: function() {
+            return State.leaveRoom(this.user, this.room)
+                .then(() => this.$router.push({name: 'rooms'}));
+        }
     }
 }
