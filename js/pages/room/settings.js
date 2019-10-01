@@ -85,7 +85,9 @@ export default {
     },
     computed: {
         inviteLink: function() {
-            return [window.location.origin, '#/join', this.room.id].join('/');
+            const href = window.location.href;
+            const root = href.substring(0, href.length - window.location.hash.length - 1);
+            return [root, '#/join', this.room.id].join('/');
         },
         gameToDelete: function() {
             return this.room.games.find(game => game.id == this.gameIdToDelete);
