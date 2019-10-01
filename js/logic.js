@@ -1,6 +1,12 @@
 import {randomString} from './lib/utils.js'
 
 export default {
+    createUSer: () => {
+        return {
+            id: randomString(),
+            rooms: [],
+        }
+    },
     createRoom: (userId, roomName, userName) => {
         return {
             id: randomString(),
@@ -15,6 +21,7 @@ export default {
     },
     createGame: (name) => {
         return {
+            id: randomString(),
             name,
             votes: {},
         }

@@ -8,8 +8,8 @@ function getGameHistory(room, game) {
 export default {
     template: /*html*/`
         <div>
-            <div class="field">
-                <div class="control has-icons-left" style="width: 100%">
+            <div class="field" v-if="!noGames">
+                <div class="control is-expanded has-icons-left">
                     <fa :icon="'sort-amount-asc'" class="is-left"/>
                     <div class="select is-fullwidth">
                         <select class="" v-model="sortBy">
@@ -19,12 +19,12 @@ export default {
                 </div>
             </div>
             <div class="game-list item-list">
-                <i v-if="room.games.length === 0">You have no games. Try adding some</i>
+                <i v-if="noGames">You have no games. Try adding some</i>
                 <!-- first show the ones tied with the most votes -->
                 <game-item class="item" v-for="game in sortedGames.slice(0, winningGamesThreshold)" :game="game" :key="game.name" :user="user" :room="room"></game-item>
                 <!-- then show the winner select -->
-                <div class="field">
-                    <div class="control has-icons-left" style="width: 100%">
+                <div class="field" v-if="!noGames">
+                    <div class="control is-expanded has-icons-left">
                         <fa :icon="'plus'" class="is-left has-text-success"/>
                         <div class="select is-fullwidth">
                             <select class="" v-model="winnerGame">
@@ -35,7 +35,7 @@ export default {
                     </div>
                 </div>
                 <div class="field" v-if="winnerGame">
-                    <div class="control has-icons-left" style="width: 100%">
+                    <div class="control is-expanded has-icons-left">
                         <fa :icon="'trophy'" class="is-left has-text-warning"/>
                         <div class="select is-fullwidth">
                             <select class="" v-model="winnerUser">
@@ -48,12 +48,12 @@ export default {
                     </div>
                 </div>
                 <div class="columns is-mobile" v-if="winnerGame">
-                    <div class="column" v-if="true">
+                    <div class="column">
                         <button class="button is-fullwidth is-primary" @click="logSession">
                             <fa :icon="'plus'"/> <span>Log session</span>
                         </button>
                     </div>
-                    <div class="column" v-if="true">
+                    <div class="column">
                         <button class="button is-fullwidth is-light" @click="cancelSessionLog">
                             <fa :icon="'times'"/> <span>Cancel</span>
                         </button>
@@ -109,7 +109,8 @@ export default {
                         if (gameHistory.length === 0) {
                             return 0;
                         }
-                        return -gameHistory[gameHistory.length - 1].created.getTime();
+                        const date = gameHistory[gameHistory.length - 1].created;
+                        return -moment(date).toDate().getTime();
                     }
                 },
                 mostPlayed: {
@@ -122,13 +123,16 @@ export default {
                 alphabetically: {
                     text: 'A-Z',
                     score: (game) => {
-                        return 0; // alphabetically is the default tiebreaker
+                        return 0; // alphabetically is already the default tiebreaker
                     }
                 },
             },
         };
     },
     computed: {
+        noGames: function() {
+            return this.room.games.length === 0;
+        },
         sortedGames: function() {
             return _(this.room.games)
                 .map(game => {

@@ -3,11 +3,12 @@ export default {
         <div class="game-item" :class="[classList]">
             <div class="columns is-vcentered is-mobile">
                 <div class="column">
-                    <div style="font-size:1.25em; margin-bottom: 1rem">{{ game.name }}</div>
+                    <div style="font-size:1.25em; margin-bottom: 0.5rem">{{ game.name }}</div>
                     <div class="game-stats">
-                        <span><fa :icon="'arrow-up'"/>{{ upvoteTotal }}</span>
-                        <span><fa :icon="'arrow-down'"/>{{ downvoteTotal }}</span>
-                        <span><fa :icon="'history'"/>{{ daysSinceLastPlayed | fromNow | fallback('-') }}</span>
+                        <fa :icon="'arrow-up'"/><span>{{ upvoteTotal }}</span>
+                        <fa :icon="'arrow-down'"/><span>{{ downvoteTotal }}</span>
+                        <fa :icon="'bar-chart'"/><span>{{ history | length }}</span>
+                        <fa :icon="'history'"/><span>{{ daysSinceLastPlayed | daysAgo | fallback('-') }}</span>
                     </div>
                 </div>
                 <div class="column is-narrow">

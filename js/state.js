@@ -1,27 +1,27 @@
-import Storage from './lib/storage.js'
-import { randomString } from './lib/utils.js';
-
-window.Storage = Storage;
+import OnlineStorage from './lib/online-storage.js'
+import Logic from './logic.js';
 
 export default {
-    data: {
-        rooms: [],
-        user: {
-            id: randomString(),
+    load: function() {
+        let user = store.get('user');
+        if (user === undefined) {
+            user = Logic.createUSer();
         }
+        return { user };
     },
-    load: async function() {
-        const state = await Storage.get('state');
-        if (state === null) {
-            state = this.data;
-        }
+    save: function(state) {
+        const user = state.user;
+        store.set('user', state.user);
         return state;
     },
-    save: async function(data) {
-        await Storage.set('state', data);
-        return data;
-    },
     reset: async function() {
-        this.save(this.data);
+        store.remove('user')
+    },
+    loadRoom: async function(roomId) {
+        return await OnlineStorage.load("poll20-room-" + roomId);
+    },
+    saveRoom: async function(room) {
+        return await OnlineStorage.save("poll20-room-" + room.id, room);
     }
+    
 }

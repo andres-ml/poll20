@@ -111,14 +111,15 @@ body {
     padding: 1rem;
 }
 
-.game-list .game-item .game-stats > span {
-    font-style: italic;
-    font-size: 1em;
-    color: #778399;
+.game-list .game-item .game-stats > .icon + span {
+    margin-left: -0.2em;
+    margin-right: 0.5em;
 }
 
-.game-list .game-item .game-stats > span:not(:last-child)::after {
-    content: ' ';
+.game-list .game-item .game-stats > span {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #778399;
 }
 
 .clickable {
@@ -129,4 +130,17 @@ body {
 .game-item.item.downvoted [data-vote="up"] .icon
 {
     color: #e8e8e8;
+}
+
+.game-item [data-vote]
+{
+    border-radius: 100%;
+}
+.game-item [data-vote]:hover
+{
+    background: whitesmoke;
+}
+
+label {
+    font-weight: 500;
 }

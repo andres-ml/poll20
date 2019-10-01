@@ -1,6 +1,7 @@
 import Rooms from './pages/rooms.js'
 import Room from './pages/room.js'
-import RoomCreate from './pages/rooms/create.js'
+import RoomCreate from './pages/create.js'
+import RoomJoin from './pages/join.js'
 import RoomPoll from './pages/room/poll.js'
 import RoomHistory from './pages/room/history.js'
 import RoomSettings from './pages/room/settings.js'
@@ -15,9 +16,14 @@ const router = new VueRouter({
             name: "rooms",
         },
         {
-            path: '/rooms/create',
+            path: '/create',
             component: RoomCreate,
             name: 'room-create'
+        },
+        {
+            path: '/join/:id',
+            component: RoomJoin,
+            name: 'room-join'
         },
         {
             path: '/room/:id',

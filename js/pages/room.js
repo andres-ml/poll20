@@ -1,6 +1,8 @@
+import State from '../state.js'
+
 const Room = {
     template: /*html*/`
-        <div class="room">
+        <div class="room" v-if="room">
             <div class="level inline-level is-mobile">
                 <div class="level-item" v-for="route of childrenRoutes">
                     <router-link :to="route" replace class="button is-light is-fullwidth tooltip" :data-tooltip="route.meta.name" style="height: 75px">
@@ -12,19 +14,25 @@ const Room = {
                 <router-view :room="room" :user="state.user"></router-view>
             </section>
         </div>
+        <loading v-else/>
     `,
     props: ['state'],
-    created: function() {
-        this.childrenRoutes = this.$router.options.routes.find((route) => route.path === '/room/:id').children;
-    },
-    mounted: function() {
-        document.body.querySelector('.top .title').innerText = this.room.name;
-        document.body.querySelector('.top .subtitle').innerText = this.room.name;
-    },
     data: function() {
         return {
-            room: this.state.rooms.find(room => this.$route.params.id == room.id),
+            room: null,
         }
+    },
+    created: function() {
+        this.childrenRoutes = this.$router.options.routes.find((route) => route.path === '/room/:id').children;
+        State.loadRoom(this.$route.params.id)
+            .then(room => this.room = room)
+            .then(() => {
+                this.$watch('room', _.debounce(function() {
+                    State.saveRoom(this.room)
+                }, 1000), {
+                    deep: true
+                })
+            })
     },
 }
   

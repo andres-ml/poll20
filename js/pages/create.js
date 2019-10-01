@@ -1,5 +1,5 @@
-import {autoFocus} from '../../components/mixins/autofocus.js'
-import Logic from '../../logic.js';
+import {autoFocus} from '../components/mixins/autofocus.js'
+import Logic from '../logic.js';
 
 const RoomCreate = {
     template: /*html*/`
@@ -9,12 +9,12 @@ const RoomCreate = {
                     <input class="input" placeholder="Room name" v-model="roomName" @keyup.enter="createRoom">
                 </div>
                 <div class="field">
-                    <input class="input" placeholder="Your alias within this room" v-model="userName" @keyup.enter="createRoom" ref="userName">
+                    <input class="input" placeholder="Your username for room" v-model="userName" @keyup.enter="createRoom" ref="userName">
                 </div>
                 <div class="notification is-warning" v-if="!valid">
                     Please, fill both fields
                 </div>
-                <button class="button is-primary is-fullwidth" @click="createRoom">
+                <button class="button is-primary is-fullwidth" :class="isSaving ? 'is-loading' : ''" @click="createRoom">
                     Create room
                 </button>
             </div>
@@ -25,6 +25,7 @@ const RoomCreate = {
             roomName: '',
             userName: '',
             valid: true,
+            isSaving: false,
         };
     },
     props: ['state'],
@@ -37,9 +38,14 @@ const RoomCreate = {
                 return;
             }
 
+            this.isSaving = true;
             const room = Logic.createRoom(this.state.user.id, this.roomName, this.userName);
-            this.state.rooms.push(room);
-            this.$router.push({name: 'rooms'});
+            State.saveRoom(room.id, room)
+                .then(room => {
+                    this.state.user.rooms.push(room.id);
+                    this.$router.push({name: 'rooms'});  
+                    this.isSaving = false;
+                })
         }
     }
 }
