@@ -126,7 +126,7 @@ body {
     cursor: pointer;
 }
 
-.game-item.item .icon {
+.game-item.item .vote-icons .icon {
     color: gray;
 }
 
@@ -150,6 +150,10 @@ body {
 .game-item [data-vote]:hover
 {
     background: whitesmoke;
+}
+
+.game-item > .columns {
+    margin-bottom: 0px;
 }
 
 label {

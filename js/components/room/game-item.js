@@ -4,14 +4,14 @@ export default {
             <div class="columns is-vcentered is-mobile">
                 <div class="column">
                     <div style="font-size:1.25em; margin-bottom: 0.5rem">{{ game.name }}</div>
-                    <div class="game-stats">
+                    <div class="game-stats clickable" @click="extended = !extended">
                         <fa :icon="'arrow-up'"/><span>{{ upvoteTotal }}</span>
                         <fa :icon="'arrow-down'"/><span>{{ downvoteTotal }}</span>
                         <fa :icon="'bar-chart'"/><span>{{ history | length }}</span>
                         <fa :icon="'history'"/><span>{{ daysSinceLastPlayed | daysAgo | fallback('-') }}</span>
                     </div>
                 </div>
-                <div class="column is-narrow">
+                <div class="column is-narrow vote-icons">
                     <div class="columns">
                         <div class="column clickable" data-vote="up" @click="vote">
                             <fa :icon="'arrow-up'"/>
@@ -22,9 +22,17 @@ export default {
                     </div>
                 </div>
             </div>
+            <div class="notification is-info game-stats-extended" v-if="extended">
+                <p v-for="vote in sortedVotes"><fa :icon="'arrow-' + vote.type"/> {{ vote.name }}</p>
+            </div>
         </div>
     `,
     props: ['game', 'user', 'room'],
+    data: function() {
+        return {
+            extended: false,
+        }
+    },
     computed: {
         history: function() {
             return this.room.history.filter((session) => session.game === this.game.name);
@@ -61,6 +69,18 @@ export default {
             }
             return classList;
         },
+        sortedVotes: function() {
+            return _(this.game.votes)
+                .toPairs()
+                .map(([userId, vote]) => {
+                    return {
+                        type: vote.type,
+                        name: this.room.members.find(member => member.id == userId).name
+                    }
+                })
+                .sortBy('name')
+                .value()
+        }
     },
     methods: {
         vote: function(event) {
