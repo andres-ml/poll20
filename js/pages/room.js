@@ -27,13 +27,21 @@ const Room = {
         State.loadRoom(this.$route.params.id)
             .then(room => this.room = room)
             .then(() => {
-                this.$watch('room', _.debounce(function() {
-                    State.saveRoom(this.room)
-                }, 1000), {
+                this.$watch('room', _.debounce(this.syncRoom, 1000), {
                     deep: true
-                })
-            })
+                });
+            });
     },
+    methods: {
+        syncRoom: function() {
+            State.saveRoom(this.room)
+                .then(room => {
+                    if (!_.isEqual(room, this.room)) {
+                        this.room = room;
+                    }
+                });
+        }
+    }
 }
   
 export default Room

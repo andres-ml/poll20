@@ -126,6 +126,17 @@ body {
     cursor: pointer;
 }
 
+.game-item.item .icon {
+    color: gray;
+}
+
+.game-item.item.upvoted [data-vote="up"] .icon {
+    color:#217aff
+}
+.game-item.item.downvoted [data-vote="down"] .icon {
+    color:#f57171
+}
+
 .game-item.item.upvoted [data-vote="down"] .icon,
 .game-item.item.downvoted [data-vote="up"] .icon
 {

@@ -62,9 +62,6 @@ export default {
             return classList;
         },
     },
-    created: function() {
-        console.log(this.game.votes, this.user.id);
-    },
     methods: {
         vote: function(event) {
             const type = event.currentTarget.dataset.vote;
