@@ -1,12 +1,14 @@
 import './global.js';
 import router from './routes.js';
 import state from './state.js'
+import BaseLayout from './layouts/base.js'
+import EmptyLayout from './layouts/empty.js'
 
 const data = {
     state: state.load(),
 };
 
-window.resetState = () => state.reset();
+const defaultLayout = 'base';
 
 new Vue({
     el: '#app',
@@ -14,11 +16,26 @@ new Vue({
     data,
     template: /*html*/`
         <div>
-            <base-layout>
+            <component :is="layout + '-layout'">
                 <router-view :state="state"/>
-            </base-layout>
+            </component>
         </div>
     `,
+    computed: {
+        layout() {
+            for (const route of this.$route.matched.slice().reverse()) {
+                const routeLayout = _.get(route, 'meta.layout');
+                if (routeLayout) {
+                    return routeLayout;
+                }
+            }
+            return defaultLayout;
+        }
+    },
+    components: {
+        'base-layout': BaseLayout,
+        'empty-layout': EmptyLayout,
+    },
     watch: {
         state: {
             handler: function() {

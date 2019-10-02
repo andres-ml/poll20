@@ -87,6 +87,11 @@ body {
 
     .top .centered-items {
         justify-content: left;
+        margin: 10px auto 5px auto;
+    }
+
+    .top .logo {
+        max-width: 50px;
     }
 
     .title {
@@ -99,9 +104,6 @@ body {
 
     .columns:not(.is-mobile) {
         margin-bottom: 0px;
-    }
-    .columns:not(.is-mobile) > .column + .column {
-        padding-top: 0px;
     }
 
 }

@@ -1,20 +1,29 @@
+import TopRoom from '../components/top-room.js'
 import State from '../state.js'
+import Foot from '../components/foot.js'
 
 const Room = {
     template: /*html*/`
-        <div class="room" v-if="room">
-            <div class="level inline-level is-mobile">
-                <div class="level-item" v-for="route of childrenRoutes">
-                    <router-link :to="route" replace class="button is-light-blue is-fullwidth tooltip" :data-tooltip="route.meta.name" style="height: 75px">
-                        <fa class="is-large" :icon="route.meta.icon + ' fa-lg'"/>
-                    </router-link>
+    <div>
+        <top-room :room="room"/>
+        <hr style="margin: 0px">
+        <div>
+            <div class="room" v-if="room">
+                <div class="level inline-level is-mobile">
+                    <div class="level-item" v-for="route of childrenRoutes">
+                        <router-link :to="route" replace class="button is-light-blue is-fullwidth tooltip" :data-tooltip="route.meta.name" style="height: 75px">
+                            <fa class="is-large" :icon="route.meta.icon + ' fa-lg'"/>
+                        </router-link>
+                    </div>
                 </div>
+                <section class="section">
+                    <router-view :room="room" :user="state.user"></router-view>
+                </section>
             </div>
-            <section class="section">
-                <router-view :room="room" :user="state.user"></router-view>
-            </section>
+            <loading v-else/>
         </div>
-        <loading v-else/>
+        <foot/>
+    </div>
     `,
     props: ['state'],
     data: function() {
@@ -41,6 +50,10 @@ const Room = {
                     }
                 });
         }
+    },
+    components: {
+        'top-room': TopRoom,
+        'foot': Foot,
     }
 }
   

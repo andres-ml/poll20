@@ -28,6 +28,9 @@ const router = new VueRouter({
         {
             path: '/room/:id',
             component: Room,
+            meta: {
+                layout: 'empty'
+            },
             children: [
                 {
                     path: '',

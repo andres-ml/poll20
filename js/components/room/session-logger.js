@@ -18,10 +18,10 @@ export default {
                 <div class="attendance" style="background: white; padding: 10px 10px 0 10px">
                     <div class="columns is-mobile">
                         <div class="column"></div>
-                        <div class="column is-2" @click="toggleAttendance('winners')">
+                        <div class="column is-2 clickable is-tooltip" data-tooltip="Winners" @click="toggleAttendance('winners')">
                             <fa icon="trophy" class="has-text-warning""/>
                         </div>
-                        <div class="column is-2" @click="toggleAttendance('attendees')">
+                        <div class="column is-2 clickable is-tooltip" data-tooltip="Attendees" @click="toggleAttendance('attendees')">
                             <fa icon="map-marker" class="has-text-error""/>
                         </div>
                     </div>
