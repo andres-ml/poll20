@@ -30,7 +30,6 @@ body {
     display: block;
     height: auto;
     text-align: left;
-    margin-bottom: 10px;
 }
 
 .item-list > .item:not(:last-child) {
@@ -107,8 +106,9 @@ body {
 
 }
 
-.game-list .game-item {
+.game-list .game-item:not(:last-child) {
     padding: 1rem;
+    margin-bottom: 0px;
 }
 
 .game-list .game-item .game-stats > .icon + span {
@@ -130,24 +130,24 @@ body {
     color: gray;
 }
 
-.game-item.item.upvoted [data-vote="up"] .icon {
+.game-item.item [data-vote="up"] .icon {
     color:#217aff
 }
-.game-item.item.downvoted [data-vote="down"] .icon {
+.game-item.item [data-vote="down"] .icon {
     color:#f57171
 }
 
-.game-item.item.upvoted [data-vote="down"] .icon,
-.game-item.item.downvoted [data-vote="up"] .icon
+.game-item.item:not(.upvoted) .vote-icons [data-vote="up"] .icon,
+.game-item.item:not(.downvoted) .vote-icons [data-vote="down"] .icon
 {
     color: #e8e8e8;
 }
 
-.game-item [data-vote]
+.game-item .vote-icons [data-vote]
 {
     border-radius: 100%;
 }
-.game-item [data-vote]:hover
+.game-item .vote-icons [data-vote]:hover
 {
     background: whitesmoke;
 }
@@ -158,4 +158,12 @@ body {
 
 label {
     font-weight: 500;
+}
+
+.is-light {
+    background: #f2f7fb !important;
+}
+
+hr {
+    background-color: #bed2d9;
 }
