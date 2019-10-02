@@ -34,7 +34,7 @@ const Room = {
     },
     methods: {
         syncRoom: function() {
-            State.saveRoom(this.room)
+            State.saveRoom(_.cloneDeep(this.room), this.state.user.id)
                 .then(room => {
                     if (!_.isEqual(room, this.room)) {
                         this.room = room;

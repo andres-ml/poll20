@@ -1,6 +1,19 @@
 import OnlineStorage from './lib/online-storage.js'
 import Logic from './logic.js';
 
+function mergeRooms(base, current, userId) {
+    base.games.forEach(game => {
+        const match = current.games.find(game2 => game2.id === game.id)
+        if (match && userId) {
+            game.votes = _.merge(...[
+                _.pick(game.votes, [userId]),
+                _.omit(match.votes, [userId])
+            ]);
+        }
+    });
+    return base;
+}
+
 export default {
     load: function() {
         let user = store.get('user');
@@ -21,7 +34,11 @@ export default {
     loadRoom: async function(roomId) {
         return await OnlineStorage.load("poll20-room-" + roomId);
     },
-    saveRoom: async function(room) {
+    saveRoom: async function(room, userId = undefined) {
+        if (userId) {
+            const current = await this.loadRoom(room.id);
+            room = mergeRooms(room, current, userId);
+        }
         return await OnlineStorage.save("poll20-room-" + room.id, room);
     },
     createRoom: function(user, roomName, userName) {
