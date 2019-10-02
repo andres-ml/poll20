@@ -109,7 +109,6 @@ body {
 }
 
 .game-list .game-item:not(:last-child) {
-    padding: 1rem;
     margin-bottom: 0px;
 }
 
@@ -180,4 +179,33 @@ input[type=checkbox] {
 
 .attendance > .columns {
     margin-bottom: 5px;
+}
+
+.reorder-list-move {
+    transition: transform 0.3s;
+}
+
+.is-collapsible {
+    transition: all 0.5s;
+}
+.is-collapsed {
+    max-height: 0px;
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+}
+
+.slide-enter-active {
+    transition: all .5s;
+}
+.slide-leave-active {
+    transition: all .5s;
+}
+.slide-enter, .slide-leave-to {
+    max-height: 0px;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    overflow: hidden;
 }

@@ -22,7 +22,7 @@ export default {
                     </div>
                 </div>
             </div>
-            <div class="notification is-light game-stats-extended" v-if="extended">
+            <div class="notification is-light-blue game-stats-extended" v-if="extended">
                 <p v-for="vote in sortedVotes" :data-vote="vote.type">
                     <fa :icon="'arrow-' + vote.type"/> {{ vote.name }}
                 </p>

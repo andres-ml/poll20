@@ -19,14 +19,17 @@ export default {
                     </div>
                 </div>
             </div>
-            <div class="game-list item-list">
+
+            <div>
                 <i v-if="noGames">You have no games. Try adding some</i>
-                <!-- first show the ones tied with the most votes -->
-                <game-item class="item" v-for="game in sortedGames.slice(0, winningGamesThreshold)" :game="game" :key="game.name" :user="user" :room="room"></game-item>
-                <!-- then show the winner select -->
-                <session-logger v-if="!noGames" :room="room" :games="sortedGames"/>
-                <!-- then show the rest -->
-                <game-item class="item" v-for="game in sortedGames.slice(winningGamesThreshold)" :game="game" :key="game.name" :user="user" :room="room"></game-item>
+                <transition-group name="reorder-list" class="game-list item-list">
+                    <!-- first show the ones tied with the most votes -->
+                    <game-item class="item" v-for="game in sortedGames.slice(0, winningGamesThreshold)" :game="game" :key="game.id" :user="user" :room="room"></game-item>
+                    <!-- then show the winner select -->
+                    <session-logger v-if="!noGames" :room="room" :games="sortedGames" key="logger"/>
+                    <!-- then show the rest -->
+                    <game-item class="item" v-for="game in sortedGames.slice(winningGamesThreshold)" :game="game" :key="game.id" :user="user" :room="room"></game-item>
+                </transition-group>
             </div>
 
             <hr>
@@ -44,9 +47,9 @@ export default {
                 </div>
             </div>
 
-            <div class="notification is-warning" v-if="!valid">
+            <notification type="warning" :if="!valid">
                 Please, enter a name
-            </div>
+            </notification>
 
         </div>
     `,
@@ -104,7 +107,7 @@ export default {
                     game.score = this.sortCriteria[this.sortBy].score(game);
                     return game;
                 })
-                .sortBy((game) => [game.score, game.name])
+                .sortBy(['score', 'name'])
                 .value();
         },
         winningGamesThreshold: function() {

@@ -3,6 +3,7 @@ import Loading from './components/common/loading.js';
 import InputItem from './components/common/input-item.js';
 import Base from './layouts/base.js';
 import Checkbox from './components/common/checkbox.js';
+import Notification from './components/common/notification.js';
 import './filters.js';
 
 Vue.component('fa', Fa);
@@ -10,7 +11,7 @@ Vue.component('loading', Loading)
 Vue.component('input-item', InputItem);
 Vue.component('base-layout', Base);
 Vue.component('checkbox', Checkbox);
-
+Vue.component('notification', Notification);
 
 Vue.mixin({
     methods: {

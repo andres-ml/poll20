@@ -29,6 +29,7 @@ const Room = {
     data: function() {
         return {
             room: null,
+            show: false,
         }
     },
     created: function() {
@@ -40,15 +41,12 @@ const Room = {
                     deep: true
                 });
             });
+        setTimeout(() => this.show = true, 500);
+        setTimeout(() => this.show = false, 2000);
     },
     methods: {
         syncRoom: function() {
-            State.saveRoom(_.cloneDeep(this.room), this.state.user.id)
-                .then(room => {
-                    if (!_.isEqual(room, this.room)) {
-                        this.room = room;
-                    }
-                });
+            State.saveRoom(_.cloneDeep(this.room), this.state.user.id);
         }
     },
     components: {

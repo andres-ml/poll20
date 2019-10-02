@@ -6,7 +6,7 @@ const Rooms = {
             <div class="container" v-if="!loading">
                 <div class="rooms item-list">
                     <p v-if="rooms.length === 0">You have no rooms. Create one or ask a friend for an invite</p>
-                    <router-link :to="{name: 'room-poll', params: {id: room.id}}" class="room item button is-light" v-for="room in rooms" :key="room.id" :room="room">
+                    <router-link :to="{name: 'room-poll', params: {id: room.id}}" class="room item button is-light-blue" v-for="room in rooms" :key="room.id" :room="room">
                         <div class="title">{{ room.name }}</div>
                         <div class="subtitle"><fa :icon="'user'"/> : {{ room.members.map(member => member.name).join(', ') }}</div>
                     </router-link>

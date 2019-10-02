@@ -49,6 +49,9 @@ export default {
                 </div>
                 <hr>
             </div>
+            <notification :if="!!sessionLoggedMessage">
+                {{ sessionLoggedMessage }}
+            </notification>
         </div>
     `,
     props: ['room', 'games'],
@@ -57,6 +60,7 @@ export default {
             winnerGame: '',
             winners: [],
             attendees: this.room.members.map(member => member.id),
+            sessionLoggedMessage: '',
         }
     },
     computed: {
@@ -80,6 +84,7 @@ export default {
             const attendees = this.room.members.filter(member => this.attendees.includes(member.id))
             this.room.history.push(Logic.logSession(this.winnerGame, this.winners, attendees))
             this.cancelSessionLog();
+            this.flashSet(this, 'sessionLoggedMessage', 'Session logged!')
         },
     },
 }

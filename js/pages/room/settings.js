@@ -15,9 +15,9 @@ export default {
                         </button>
                     </div>
                 </div>
-                <div class="notification is-success" v-if="recentlyCopied">
+                <notification type="success" :if="recentlyCopied">
                     Link copied to clipboard
-                </div>
+                </notification>
             </div>
 
             <hr>
@@ -48,9 +48,9 @@ export default {
                         </button>
                     </div>
                 </div>
-                <div class="notification is-info" v-if="gameDeletedNotification">
+                <notification type="info" :if="!!gameDeletedNotification">
                     {{ gameDeletedNotification }}
-                </div>
+                </notification>
             </div>
 
             <hr>
