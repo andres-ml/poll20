@@ -160,10 +160,22 @@ label {
     font-weight: 500;
 }
 
-.is-light {
-    background: #f2f7fb !important;
+.is-light-blue {
+    background: #f2f7fb;
+}
+
+.button.is-light-blue {
+    border: none;
 }
 
 hr {
     background-color: #bed2d9;
+}
+
+input[type=checkbox] {
+    transform: scale(1.25);
+}
+
+.attendance > .columns {
+    margin-bottom: 5px;
 }

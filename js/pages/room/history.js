@@ -1,19 +1,11 @@
+import HistoryItem from "../../components/room/history-item.js";
+
 export default {
     template: /*html*/`
         <div>
             <div v-for="(sessions, label) in sessionsByRange" style="margin-bottom: 2rem">
                 <h1 class="subtitle">{{ label }}</h1>
-                <div class="notification is-light" v-for="session in sessions">
-                    <div class="columns is-vcentered">
-                        <div class="column">
-                            Played <strong>{{ session.game }}</strong> {{ session.created | fromNow }}
-                        </div>
-                        <div class="column has-text-right" v-if="session.winner">
-                            <strong>Winner:</strong> {{ formatWinner(session.winner) }}
-                        </div>
-                        <button class="delete" style="margin-left: 10px" @click="room.history.splice(session.index, 1)"></button>
-                    </div>
-                </div>
+                <history-item v-for="session in sessions" :session="session" :key="session.index" @delete="deleteSession"/>
             </div>
             <div class="notification is-info" v-if="room.history.length === 0">
                 No games played yet. Log your sessions in the poll section
@@ -21,7 +13,13 @@ export default {
         </div>
     `,
     props: ['room'],
+    components: {
+        'history-item': HistoryItem
+    },
     computed: {
+        winnerList: function() {
+
+        },
         sessionsByRange: function() {
             const ranges = [
                 {
@@ -51,20 +49,8 @@ export default {
         }
     },
     methods: {
-        formatWinner: function(value) {
-            if (!value) {
-                return '';
-            }
-            const fixed = {
-                everyone: 'Everyone',
-                nobody: 'Nobody',
-            };
-            if (value in fixed) {
-                return fixed[value];
-            }
-            else {
-                return this.room.members.find(member => member.id === value).name;
-            }
-        }
+        deleteSession(index) {
+            this.room.history.splice(index, 1)
+        },
     }
 }

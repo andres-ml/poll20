@@ -17,3 +17,10 @@ Vue.filter('fallback', function(value, fallback) {
 Vue.filter('length', function(value) {
     return 'length' in value ? value.length : value;
 });
+
+Vue.filter('pluralize', function(value, variable, plural = undefined) {
+    if (variable.length > 1) {
+        return plural ? plural : (value + 's');
+    }
+    return value;
+});

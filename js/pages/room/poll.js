@@ -1,4 +1,5 @@
 import GameItem from '../../components/room/game-item.js'
+import SessionLogger from '../../components/room/session-logger.js'
 import Logic from '../../logic.js';
 
 function getGameHistory(room, game) {
@@ -23,42 +24,7 @@ export default {
                 <!-- first show the ones tied with the most votes -->
                 <game-item class="item" v-for="game in sortedGames.slice(0, winningGamesThreshold)" :game="game" :key="game.name" :user="user" :room="room"></game-item>
                 <!-- then show the winner select -->
-                <div class="field" v-if="!noGames">
-                    <div class="control is-expanded has-icons-left">
-                        <fa :icon="'plus'" class="is-left has-text-success"/>
-                        <div class="select is-fullwidth">
-                            <select class="" v-model="winnerGame">
-                                <option value="">Log new session</option>
-                                <option v-for="game in sortedGames" :value="game.name">Log {{ game.name }}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="field" v-if="winnerGame">
-                    <div class="control is-expanded has-icons-left">
-                        <fa :icon="'trophy'" class="is-left has-text-warning"/>
-                        <div class="select is-fullwidth">
-                            <select class="" v-model="winnerUser">
-                                <option value="">Choose winner (optional)</option>
-                                <option v-for="user in room.members" :value="user.id">{{ user.name }}</option>
-                                <option value="everyone">Everyone (co-op)</option>
-                                <option value="nobody">Nobody (co-op)</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="columns is-mobile" v-if="winnerGame">
-                    <div class="column">
-                        <button class="button is-fullwidth is-primary" @click="logSession">
-                            <fa :icon="'plus'"/> <span>Log session</span>
-                        </button>
-                    </div>
-                    <div class="column">
-                        <button class="button is-fullwidth is-light" @click="cancelSessionLog">
-                            <fa :icon="'times'"/> <span>Cancel</span>
-                        </button>
-                    </div>
-                </div>
+                <session-logger v-if="!noGames" :room="room" :games="sortedGames"/>
                 <!-- then show the rest -->
                 <game-item class="item" v-for="game in sortedGames.slice(winningGamesThreshold)" :game="game" :key="game.name" :user="user" :room="room"></game-item>
             </div>
@@ -85,14 +51,13 @@ export default {
         </div>
     `,
     components: {
-        'game-item': GameItem
+        'game-item': GameItem,
+        'session-logger': SessionLogger,
     },
     props: ['room', 'user'],
     data: function() {
         return {
             gameName: '',
-            winnerGame: '',
-            winnerUser: '',
             valid: true,
             sortBy: 'votes',
             sortCriteria: {
@@ -156,13 +121,6 @@ export default {
                 this.room.games.push(Logic.createGame(this.gameName));
                 this.gameName = ""
             }
-        },
-        cancelSessionLog: function() {
-            this.winnerGame = this.winnerUser = "";
-        },
-        logSession: function() {
-            this.room.history.push(Logic.logSession(this.winnerGame, this.winnerUser))
-            this.cancelSessionLog();
         },
     },
 }

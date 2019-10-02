@@ -35,10 +35,11 @@ export default {
             .filter((_, key) => userId === null || userId === key)
             .map(vote => weights[vote.type]).sum();
     },
-    logSession: (game, winnerUser) => {
+    logSession: (game, winners, attendees) => {
         return {
             game,
-            winner: winnerUser,
+            winners,    // list of member ids
+            attendees,  // list of member objects
             created: new Date()
         }
     }

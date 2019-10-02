@@ -5,7 +5,7 @@ const Room = {
         <div class="room" v-if="room">
             <div class="level inline-level is-mobile">
                 <div class="level-item" v-for="route of childrenRoutes">
-                    <router-link :to="route" replace class="button is-light is-fullwidth tooltip" :data-tooltip="route.meta.name" style="height: 75px">
+                    <router-link :to="route" replace class="button is-light-blue is-fullwidth tooltip" :data-tooltip="route.meta.name" style="height: 75px">
                         <fa class="is-large" :icon="route.meta.icon + ' fa-lg'"/>
                     </router-link>
                 </div>
