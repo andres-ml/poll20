@@ -50,7 +50,7 @@ const RoomJoin = {
                 name: this.userName
             });
             
-            return State.saveRoom(this.room)
+            return State.saveRoom(this.room, this.state.user.id)
                 .then(() => {
                     this.state.user.rooms.push(this.room.id);
                     this.$router.push({name: 'rooms'});
