@@ -13,6 +13,10 @@ function mergeRooms(base, current, userId) {
         }
     });
 
+    base.games.forEach(game => {
+        game.votes = _.pick(game.votes, _.map(base.members, 'id'));
+    });
+
     // pick all users except current user, then add it if he exists in local
     base.members = _.concat(...[
         _.filter(current.members, _.negate(_.matches({id: userId}))),
