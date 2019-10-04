@@ -209,3 +209,7 @@ input[type=checkbox] {
     margin-bottom: 0;
     overflow: hidden;
 }
+
+.button .subtitle {
+    white-space: normal;
+}
