@@ -83,6 +83,7 @@ export default {
         },
         cancelSessionLog() {
             this.winnerGame = '';
+            this.sessionComments = '';
         },
         logSession() {
             const attendees = this.room.members.filter(member => this.attendees.includes(member.id))
