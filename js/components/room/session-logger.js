@@ -15,7 +15,7 @@ export default {
                 </div>
             </div>
             <div v-if="winnerGame">
-                <div class="attendance" style="background: white; padding: 10px 10px 0 10px">
+                <div class="attendance" style="background: white">
                     <div class="columns is-mobile">
                         <div class="column"></div>
                         <div class="column is-2 clickable is-tooltip" data-tooltip="Winners" @click="toggleAttendance('winners')">
@@ -34,6 +34,9 @@ export default {
                             <checkbox :id="'attendance-' + user.id" :value="user.id" v-model="attendees"/>
                         </div>
                     </div>
+                </div>
+                <div class="comments" style="margin: 10px auto">
+                    <textarea class="textarea" rows="2" v-model="sessionComments" placeholder="Any comments about the game?"></textarea>
                 </div>
                 <div class="columns is-mobile">
                     <div class="column">
@@ -61,6 +64,7 @@ export default {
             winners: [],
             attendees: this.room.members.map(member => member.id),
             sessionLoggedMessage: '',
+            sessionComments: '',
         }
     },
     computed: {
@@ -82,7 +86,11 @@ export default {
         },
         logSession() {
             const attendees = this.room.members.filter(member => this.attendees.includes(member.id))
-            this.room.history.push(Logic.logSession(this.winnerGame, this.winners, attendees))
+            this.room.history.push(Logic.logSession(this.winnerGame, {
+                winners: this.winners,
+                attendees: attendees,
+                comments: this.sessionComments,
+            }));
             this.cancelSessionLog();
             this.flashSet(this, 'sessionLoggedMessage', 'Session logged!')
         },
