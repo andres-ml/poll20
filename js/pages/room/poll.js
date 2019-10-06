@@ -37,7 +37,7 @@ export default {
             <div class="columns is-mobile">
                 <div class="column">
                     <div class="field">
-                        <input class="input" placeholder="Add new game" v-model="gameName" @keyup.enter="addGame">
+                        <input class="input" placeholder="Add new game" v-model="gameName" @keyup.enter="addGame" ref="gameName">
                     </div>
                 </div>
                 <div class="column is-narrow">
@@ -124,6 +124,7 @@ export default {
                 this.room.games.push(Logic.createGame(this.gameName));
                 this.gameName = ""
             }
+            this.$refs['gameName'].focus();
         },
     },
 }

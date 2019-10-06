@@ -35,12 +35,13 @@ export default {
             .filter((_, key) => userId === null || userId === key)
             .map(vote => weights[vote.type]).sum();
     },
-    logSession: (game, winners, attendees) => {
-        return {
+    logSession: (game, config = {}) => {
+        return _.merge({
             game,
-            winners,    // list of member ids
-            attendees,  // list of member objects
-            created: new Date()
-        }
+            created: new Date(),
+            winners: [],
+            attendees: [],
+            comments: ''
+        }, config);
     }
 }

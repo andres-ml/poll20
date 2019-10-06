@@ -6,6 +6,7 @@ export default {
             <br>
             <p><strong>{{ 'Player' | pluralize(session.attendees) }}:</strong> {{ session.attendees.map(attendee => attendee.name).join(', ') }}</p>
             <p><strong>{{ 'Winner' | pluralize(session.winners) }}:</strong> {{ winnerList }}</p>
+            <p class="history-item-comments" v-if="session.comments">{{ session.comments }}</p>
             <button class="delete" style="margin-left: 10px" @click="$emit('delete', session.index)"></button>
         </div>
     `,

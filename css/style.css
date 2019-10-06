@@ -209,3 +209,14 @@ input[type=checkbox] {
     margin-bottom: 0;
     overflow: hidden;
 }
+
+.button .subtitle {
+    white-space: normal;
+}
+
+.history-item-comments {
+    font-style: italic;
+    border-top: 1px solid gray;
+    margin-top: 10px;
+    padding-top: 10px;
+}
