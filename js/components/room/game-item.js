@@ -24,26 +24,31 @@ export default {
             </div>
             <div class="notification is-light-blue game-stats-extended" v-if="extended">
                 <p v-for="vote in sortedVotes" :data-vote="vote.type">
-                    <fa :icon="'arrow-' + vote.type"/> {{ vote.name }}
+                    <span :style="{opacity: vote.active ? 1 : 0.5}">
+                        <fa :icon="'arrow-' + vote.type"/> {{ vote.name }}
+                    </span>
                 </p>
             </div>
         </div>
     `,
-    props: ['game', 'user', 'room'],
+    props: ['game', 'user', 'room', 'attendees'],
     data: function() {
         return {
             extended: false,
         }
     },
     computed: {
+        activeVotes() {
+            return _.filter(this.game.votes, (vote, userId) => this.attendees.indexOf(userId) !== -1);
+        },
         history: function() {
             return this.room.history.filter((session) => session.game === this.game.name);
         },
         upvoteTotal: function() {
-            return _.filter(this.game.votes, (vote => vote.type === 'up')).length;
+            return _.filter(this.activeVotes, (vote => vote.type === 'up')).length;
         },
         downvoteTotal: function() {
-            return _.filter(this.game.votes, (vote => vote.type === 'down')).length;
+            return _.filter(this.activeVotes, (vote => vote.type === 'down')).length;
         },
         daysSinceLastPlayed: function() {
             const gameHistory = this.history.filter(session => session.game === this.game.name);
@@ -77,7 +82,8 @@ export default {
                 .map(([userId, vote]) => {
                     return {
                         type: vote.type,
-                        name: this.room.members.find(member => member.id == userId).name
+                        name: this.room.members.find(member => member.id == userId).name,
+                        active: this.attendees.indexOf(userId) !== -1,
                     }
                 })
                 .sortBy('name')
