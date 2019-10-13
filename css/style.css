@@ -220,3 +220,21 @@ input[type=checkbox] {
     margin-top: 10px;
     padding-top: 10px;
 }
+
+.attendance,
+.winners
+{
+    padding: 10px 10px 0 10px;
+    background: #f8fafb;
+    border-radius: 5px;
+}
+
+.attendance .clickable > .icon,
+.winners .clickable > .icon
+{
+    background: white none repeat scroll 0% 0%;
+    border: 1px solid #dddcdc;
+    border-radius: 5px;
+    width: 1.6rem;
+    height: 1.6rem;
+}

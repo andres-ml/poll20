@@ -15,23 +15,17 @@ export default {
                 </div>
             </div>
             <div v-if="winnerGame">
-                <div class="attendance" style="background: white">
+                <div class="winners" style="margin-bottom: 1.5em">
                     <div class="columns is-mobile">
                         <div class="column"></div>
-                        <div class="column is-2 clickable is-tooltip" data-tooltip="Winners" @click="toggleAttendance('winners')">
-                            <fa icon="trophy" class="has-text-warning""/>
-                        </div>
-                        <div class="column is-2 clickable is-tooltip" data-tooltip="Attendees" @click="toggleAttendance('attendees')">
-                            <fa icon="map-marker" class="has-text-error""/>
+                        <div class="column is-2 clickable is-tooltip" data-tooltip="Winners" @click="toggleAttendance">
+                            <fa icon="trophy" class="has-text-warning"/>
                         </div>
                     </div>
-                    <div class="columns is-mobile" v-for="user in room.members" :key="user.id">
+                    <div class="columns is-mobile" v-for="user in attendingMembers" :key="user.id">
                         <div class="column">{{ user.name }}</div>
                         <div class="column is-2">
                             <checkbox :id="'victory-' + user.id" :value="user.id" v-model="winners"/>
-                        </div>
-                        <div class="column is-2">
-                            <checkbox :id="'attendance-' + user.id" :value="user.id" v-model="attendees"/>
                         </div>
                     </div>
                 </div>
@@ -57,12 +51,11 @@ export default {
             </notification>
         </div>
     `,
-    props: ['room', 'games'],
+    props: ['room', 'games', 'attendees'],
     data: function() {
         return {
             winnerGame: '',
             winners: [],
-            attendees: this.room.members.map(member => member.id),
             sessionLoggedMessage: '',
             sessionComments: '',
         }
@@ -71,14 +64,17 @@ export default {
         noGames() {
             return this.games.length === 0;
         },
+        attendingMembers() {
+            return this.attendees.map(id => this.room.members.find(_.matches({id: id})));
+        },
     },
     methods: {
-        toggleAttendance(prop) {
-            if (this[prop].length === this.room.members.length) {
-                this[prop] = [];
+        toggleAttendance() {
+            if (this.winners.length === this.attendees.length) {
+                this.winners = [];
             }
             else {
-                this[prop] = this.room.members.map(member => member.id);
+                this.winners = this.attendees;
             }
         },
         cancelSessionLog() {
@@ -86,10 +82,9 @@ export default {
             this.sessionComments = '';
         },
         logSession() {
-            const attendees = this.room.members.filter(member => this.attendees.includes(member.id))
             this.room.history.push(Logic.logSession(this.winnerGame, {
                 winners: this.winners,
-                attendees: attendees,
+                attendees: this.attendingMembers,
                 comments: this.sessionComments,
             }));
             this.cancelSessionLog();
