@@ -31,7 +31,9 @@ Vue.mixin({
          */
         flashSet: function(item, property, value, emptyValue = '', timeoutInSeconds = 5) {
             this.$set(item, property, value);
-            setTimeout(() => this.$set(item, property, emptyValue), timeoutInSeconds * 1000);
+            
+            clearTimeout(item.$_flashTimeout);
+            item.$_flashTimeout = setTimeout(() => this.$set(item, property, emptyValue), timeoutInSeconds * 1000);
         },
         loadWhile: function(callback) {
             const result = callback.apply(this, arguments);
