@@ -5,6 +5,7 @@ import RoomJoin from './pages/join.js'
 import RoomPoll from './pages/room/poll.js'
 import RoomHistory from './pages/room/history.js'
 import RoomSettings from './pages/room/settings.js'
+import Tools from './pages/room/tools.js'
 
 Vue.use(VueRouter)
 
@@ -37,7 +38,7 @@ const router = new VueRouter({
                     component: RoomPoll,
                     name: 'room-poll',
                     meta: {
-                        icon: 'pie-chart',
+                        icon: 'chart-pie',
                         name: 'Poll'
                     }
                 },
@@ -46,8 +47,17 @@ const router = new VueRouter({
                     component: RoomHistory,
                     name: 'room-history',
                     meta: {
-                        icon: 'bar-chart',
+                        icon: 'chart-bar',
                         name: 'History'
+                    }
+                },
+                {
+                    path: 'tools',
+                    component: Tools,
+                    name: 'tools',
+                    meta: {
+                        icon: 'dice',
+                        name: 'Tools'
                     }
                 },
                 {
@@ -55,7 +65,7 @@ const router = new VueRouter({
                     component: RoomSettings,
                     name: 'room-settings',
                     meta: {
-                        icon: 'gear',
+                        icon: 'cog',
                         name: 'Settings'
                     }
                 },

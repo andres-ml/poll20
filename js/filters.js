@@ -19,8 +19,17 @@ Vue.filter('length', function(value) {
 });
 
 Vue.filter('pluralize', function(value, variable, plural = undefined) {
-    if (variable.length > 1) {
+    let isPlural = null;
+    if (typeof variable === 'number') {
+        isPlural = variable > 1;
+    }
+    else if ('length' in variable) {
+        isPlural = variable.length > 1;
+    }
+
+    if (isPlural) {
         return plural ? plural : (value + 's');
     }
+
     return value;
 });
