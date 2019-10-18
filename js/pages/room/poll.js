@@ -13,7 +13,7 @@ export default {
                 <div class="columns is-mobile">
                     <div class="column">
                         <div class="control is-expanded has-icons-left">
-                            <fa :icon="'sort-amount-asc'" class="is-left"/>
+                            <fa :icon="'sort-amount-down-alt'" class="is-left"/>
                             <div class="select is-fullwidth">
                                 <select class="" v-model="sortBy">
                                     <option v-for="(criteria, key) in sortCriteria" :value="key">Sort by {{ criteria.text }}</option>
@@ -23,7 +23,7 @@ export default {
                     </div>
                     <div class="column is-narrow">
                         <button class="button is-light" @click="attendanceVisible = !attendanceVisible">
-                            <fa icon="group"/>
+                            <fa icon="map-marker-alt"/>
                         </button>
                     </div>
                 </div>
@@ -34,7 +34,7 @@ export default {
                     <div class="columns is-mobile">
                         <div class="column"></div>
                         <div class="column is-2 clickable is-tooltip" data-tooltip="Attendees" @click="toggleAttendance">
-                            <fa icon="map-marker" class="has-text-danger"/>
+                            <fa icon="map-marker-alt" class="has-text-danger"/>
                         </div>
                     </div>
                     <div class="columns is-mobile" v-for="user in room.members" :key="user.id">

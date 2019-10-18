@@ -37,7 +37,7 @@ const router = new VueRouter({
                     component: RoomPoll,
                     name: 'room-poll',
                     meta: {
-                        icon: 'pie-chart',
+                        icon: 'chart-pie',
                         name: 'Poll'
                     }
                 },
@@ -46,7 +46,7 @@ const router = new VueRouter({
                     component: RoomHistory,
                     name: 'room-history',
                     meta: {
-                        icon: 'bar-chart',
+                        icon: 'chart-bar',
                         name: 'History'
                     }
                 },
@@ -55,7 +55,7 @@ const router = new VueRouter({
                     component: RoomSettings,
                     name: 'room-settings',
                     meta: {
-                        icon: 'gear',
+                        icon: 'cog',
                         name: 'Settings'
                     }
                 },

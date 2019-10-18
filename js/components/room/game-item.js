@@ -7,7 +7,7 @@ export default {
                     <div class="game-stats clickable" @click="extended = !extended">
                         <fa :icon="'arrow-up'"/><span>{{ upvoteTotal }}</span>
                         <fa :icon="'arrow-down'"/><span>{{ downvoteTotal }}</span>
-                        <fa :icon="'bar-chart'"/><span>{{ history | length }}</span>
+                        <fa :icon="'chart-bar'"/><span>{{ history | length }}</span>
                         <fa :icon="'history'"/><span>{{ daysSinceLastPlayed | daysAgo | fallback('-') }}</span>
                     </div>
                 </div>
