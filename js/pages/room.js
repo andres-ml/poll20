@@ -46,7 +46,7 @@ const Room = {
     },
     methods: {
         syncRoom: function() {
-            State.saveRoom(_.cloneDeep(this.room), this.state.user.id);
+            State.saveRoom(R.clone(this.room), this.state.user.id);
         }
     },
     components: {

@@ -31,12 +31,16 @@ export default {
             'up': 1,
             'down': -1
         };
-        return _(game.votes)
-            .filter((user, userId) => attendees === null || (attendees.indexOf(userId) !== -1))
-            .map(vote => weights[vote.type]).sum();
+        
+        return R.pipe(
+            R.pick(attendees === null ? Object.keys(game.votes) : attendees),
+            R.map(vote => weights[vote.type]),
+            R.values,
+            R.sum,
+        )(game.votes);
     },
     logSession: (game, config = {}) => {
-        return _.merge({
+        return R.merge({
             game,
             created: new Date(),
             winners: [],

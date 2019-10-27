@@ -6,6 +6,9 @@ import Checkbox from './components/common/checkbox.js';
 import Notification from './components/common/notification.js';
 import './filters.js';
 
+R.merge = R.mergeDeepRight;
+R.get = R.useWith(R.path, [R.invoker(1, 'split')('.')])
+
 Vue.component('fa', Fa);
 Vue.component('loading', Loading)
 Vue.component('input-item', InputItem);

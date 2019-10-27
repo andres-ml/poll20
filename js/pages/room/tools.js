@@ -3,7 +3,7 @@ function rollDie(size) {
 }
 
 function rollDice(size, quantity) {
-    return _(quantity).range().map(i => rollDie(size)).value();
+    return R.map(i => rollDie(size), R.range(0, quantity));
 }
 
 export default {
@@ -27,14 +27,14 @@ export default {
                     <div class="column">
                         <div class="select is-fullwidth">
                             <select class="" v-model="roll.quantity">
-                                <option v-for="n in _.range(1, 21)" :key="n" :value="n">{{ n }} dice</option>
+                                <option v-for="n in R.range(1, 21)" :key="n" :value="n">{{ n }} dice</option>
                             </select>
                         </div>
                     </div>
                     <div class="column">
                         <div class="select is-fullwidth">
                             <select class="" v-model="roll.size">
-                                <option v-for="n in _.range(2, 21)" :key="n" :value="n">{{ n }} sides</option>
+                                <option v-for="n in R.range(2, 21)" :key="n" :value="n">{{ n }} sides</option>
                             </select>
                         </div>
                     </div>

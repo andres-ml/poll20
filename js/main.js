@@ -24,7 +24,7 @@ new Vue({
     computed: {
         layout() {
             for (const route of this.$route.matched.slice().reverse()) {
-                const routeLayout = _.get(route, 'meta.layout');
+                const routeLayout = R.get('meta.layout', route);
                 if (routeLayout) {
                     return routeLayout;
                 }

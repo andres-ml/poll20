@@ -65,7 +65,7 @@ export default {
             return this.games.length === 0;
         },
         attendingMembers() {
-            return this.attendees.map(id => this.room.members.find(_.matches({id: id})));
+            return this.room.members.filter(member => R.contains(member.id, this.attendees))
         },
     },
     methods: {

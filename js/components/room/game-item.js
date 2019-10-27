@@ -39,16 +39,16 @@ export default {
     },
     computed: {
         activeVotes() {
-            return _.filter(this.game.votes, (vote, userId) => this.attendees.indexOf(userId) !== -1);
+            return R.pick(this.attendees, this.game.votes);
         },
         history: function() {
             return this.room.history.filter((session) => session.game === this.game.name);
         },
         upvoteTotal: function() {
-            return _.filter(this.activeVotes, (vote => vote.type === 'up')).length;
+            return Object.values(this.activeVotes).filter(R.propEq('type', 'up')).length;
         },
         downvoteTotal: function() {
-            return _.filter(this.activeVotes, (vote => vote.type === 'down')).length;
+            return Object.values(this.activeVotes).filter(R.propEq('type', 'down')).length;
         },
         daysSinceLastPlayed: function() {
             const gameHistory = this.history.filter(session => session.game === this.game.name);
@@ -77,17 +77,17 @@ export default {
             return classList;
         },
         sortedVotes: function() {
-            return _(this.game.votes)
-                .toPairs()
-                .map(([userId, vote]) => {
+            return R.pipe(
+                R.toPairs,
+                R.map(([userId, vote]) => {
                     return {
                         type: vote.type,
                         name: this.room.members.find(member => member.id == userId).name,
                         active: this.attendees.indexOf(userId) !== -1,
                     }
-                })
-                .sortBy('name')
-                .value()
+                }),
+                R.sortBy(R.prop('name'))
+            )(this.game.votes);
         }
     },
     methods: {

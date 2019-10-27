@@ -130,13 +130,16 @@ export default {
             return this.room.games.length === 0;
         },
         sortedGames: function() {
-            return _(this.room.games)
-                .map(game => {
+            return R.pipe(
+                R.map(game => {
                     game.score = this.sortCriteria[this.sortBy].score(game);
                     return game;
-                })
-                .sortBy(['score', 'name'])
-                .value();
+                }),
+                R.sortWith([
+                    R.ascend(R.prop('score')),
+                    R.ascend(R.prop('name')),
+                ]),
+            )(this.room.games);
         },
         winningGamesThreshold: function() {
             if (this.sortBy !== 'votes') {

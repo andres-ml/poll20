@@ -36,16 +36,17 @@ export default {
                 }
             ];
 
-            return _(this.room.history)
-                .map((session, index) => {
+            return R.pipe(
+                R.addIndex(R.map)((session, index) => {
                     session.index = index;
                     return session;
+                }),
+                R.reverse,
+                R.groupBy((session) => {
+                    const firstMatchingRange = R.find(range => range.threshold === null || range.threshold < moment(session.created), ranges)
+                    return firstMatchingRange.label;
                 })
-                .reverse()
-                .groupBy((session) => {
-                    return _.find(ranges, (range) => range.threshold === null || range.threshold < moment(session.created)).label;
-                })
-                .value();
+            )(this.room.history)
         }
     },
     methods: {

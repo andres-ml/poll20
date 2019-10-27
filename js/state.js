@@ -3,24 +3,24 @@ import Logic from './logic.js';
 
 function mergeRooms(base, current, userId) {
     base.games.forEach(game => {
-        const match = current.games.find(_.matches({id: game.id}))
+        const match = current.games.find(R.propEq('id', game.id))
         if (match) {
             // pick current user's votes, then the rest from the source
-            game.votes = _.merge(...[
-                _.pick(game.votes, [userId]),
-                _.omit(match.votes, [userId])
+            game.votes = R.merge(...[
+                R.pick([userId], game.votes),
+                R.omit([userId], match.votes)
             ]);
         }
     });
 
     base.games.forEach(game => {
-        game.votes = _.pick(game.votes, _.map(base.members, 'id'));
+        game.votes = R.pick(R.map(R.prop('id'), base.members), game.votes);
     });
 
     // pick all users except current user, then add it if he exists in local
-    base.members = _.concat(...[
-        _.filter(current.members, _.negate(_.matches({id: userId}))),
-        _.filter(base.members, _.matches({id: userId})),
+    base.members = R.concat(...[
+        R.reject(R.propEq('id', userId), current.members),
+        R.filter(R.propEq('id', userId), base.members),
     ]);
 
     return base;

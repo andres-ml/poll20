@@ -30,7 +30,7 @@ export default {
                         <div class="select is-fullwidth">
                             <select class="" v-model="gameIdToDelete">
                                 <option value="">Choose game</option>
-                                <option v-for="game in _.sortBy(room.games, 'name')" :value="game.id">{{ game.name }}</option>
+                                <option v-for="game in R.sortBy(R.prop('name'), room.games)" :value="game.id">{{ game.name }}</option>
                             </select>
                         </div>
                     </div>
