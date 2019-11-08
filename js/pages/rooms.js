@@ -28,9 +28,12 @@ const Rooms = {
     },
     created: function() {
         Promise
-            .all(this.state.user.rooms.map(State.loadRoom))
+            .all(this.state.user.rooms.map(room => State.loadRoom(room.id)))
             .then(rooms => {
-                this.rooms = rooms;
+                this.rooms = rooms.filter(room => {
+                    const userRoom = this.state.user.rooms.find(R.propEq('id', room.id));
+                    return room.members.find(R.propEq('id', userRoom.userId));
+                });
                 this.loading = false;
             });
     },

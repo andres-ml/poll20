@@ -30,8 +30,18 @@ export default {
     load: function() {
         let user = store.get('user');
         if (user === undefined) {
-            user = Logic.createUSer();
+            user = Logic.createUser();
             this.save({ user })
+        }
+        if ('id' in user) {
+            user.rooms = user.rooms.map(roomId => {
+                return {
+                    id: roomId,
+                    userId: user.id
+                }
+            });
+            delete user.id;
+            this.save({ user });
         }
         return { user };
     },
@@ -54,14 +64,15 @@ export default {
         return await OnlineStorage.save("poll20-room-" + room.id, room);
     },
     createRoom: function(user, roomName, userName) {
-        const room = Logic.createRoom(user.id, roomName, userName);
+        const room = Logic.createRoom(roomName, userName);
         return this.saveRoom(room)
-            .then(room => user.rooms.push(room.id))
+            .then(room => user.rooms.push({
+                id: room.id,
+                userId: room.members[0].id
+            }));
     },
-    leaveRoom: function(user, room) {
-        const member = room.members.find(member => member.id === user.id)
+    leaveRoom: function(member, room) {
         room.members.splice(room.members.indexOf(member), 1);
-        return this.saveRoom(room)
-            .then(_ => user.rooms.splice(user.rooms.indexOf(room.id), 1));
+        return this.saveRoom(room);
     },
 }

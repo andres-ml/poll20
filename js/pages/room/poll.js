@@ -50,11 +50,11 @@ export default {
                 <i v-if="noGames">You have no games. Try adding some</i>
                 <transition-group name="reorder-list" class="game-list item-list">
                     <!-- first show the ones tied with the most votes -->
-                    <game-item class="item" v-for="game in sortedGames.slice(0, winningGamesThreshold)" :game="game" :attendees="attendees" :key="game.id" :user="user" :room="room"></game-item>
+                    <game-item class="item" v-for="game in sortedGames.slice(0, winningGamesThreshold)" :game="game" :attendees="attendees" :key="game.id" :member="member" :room="room"></game-item>
                     <!-- then show the winner select -->
                     <session-logger v-if="!noGames" :room="room" :games="sortedGames" :attendees="attendees" key="logger"/>
                     <!-- then show the rest -->
-                    <game-item class="item" v-for="game in sortedGames.slice(winningGamesThreshold)" :game="game" :attendees="attendees" :key="game.id" :user="user" :room="room"></game-item>
+                    <game-item class="item" v-for="game in sortedGames.slice(winningGamesThreshold)" :game="game" :attendees="attendees" :key="game.id" :member="member" :room="room"></game-item>
                 </transition-group>
             </div>
 
@@ -83,7 +83,7 @@ export default {
         'game-item': GameItem,
         'session-logger': SessionLogger,
     },
-    props: ['room', 'user'],
+    props: ['room', 'member'],
     data: function() {
         return {
             gameName: '',

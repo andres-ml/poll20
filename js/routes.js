@@ -22,7 +22,7 @@ const router = new VueRouter({
             name: 'room-create'
         },
         {
-            path: '/join/:id',
+            path: '/join/:id/:userId?',
             component: RoomJoin,
             name: 'room-join'
         },

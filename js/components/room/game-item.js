@@ -31,7 +31,7 @@ export default {
             </div>
         </div>
     `,
-    props: ['game', 'user', 'room', 'attendees'],
+    props: ['game', 'member', 'room', 'attendees'],
     data: function() {
         return {
             extended: false,
@@ -64,7 +64,7 @@ export default {
             return this.currentVote !== null && this.currentVote.type === 'down';
         },
         currentVote: function() {
-            return this.user.id in this.game.votes ? this.game.votes[this.user.id] : null;
+            return this.member.id in this.game.votes ? this.game.votes[this.member.id] : null;
         },
         classList: function() {
             var classList = [];
@@ -96,11 +96,11 @@ export default {
             const currentVote = this.currentVote;
 
             if (currentVote !== null) {
-                this.$delete(this.game.votes, this.user.id);
+                this.$delete(this.game.votes, this.member.id);
             }
             
             if (currentVote === null || currentVote.type !== type) {
-                this.$set(this.game.votes, this.user.id, {
+                this.$set(this.game.votes, this.member.id, {
                     type: type,
                     created: new Date()
                 });

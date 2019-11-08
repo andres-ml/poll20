@@ -17,7 +17,7 @@ const Room = {
                     </div>
                 </div>
                 <section class="section">
-                    <router-view :room="room" :user="state.user"></router-view>
+                    <router-view :room="room" :member="member"></router-view>
                 </section>
             </div>
             <loading v-else/>
@@ -32,6 +32,15 @@ const Room = {
             show: false,
         }
     },
+    computed: {
+        member() {
+            if (this.room === null) {
+                return null;
+            }
+            const userRoom = this.state.user.rooms.find(R.propEq('id', this.room.id));
+            return this.room.members.find(R.propEq('id', userRoom.userId));
+        }
+    },
     created: function() {
         this.childrenRoutes = this.$router.options.routes.find((route) => route.path === '/room/:id').children;
         State.loadRoom(this.$route.params.id)
@@ -41,12 +50,10 @@ const Room = {
                     deep: true
                 });
             });
-        setTimeout(() => this.show = true, 500);
-        setTimeout(() => this.show = false, 2000);
     },
     methods: {
         syncRoom: function() {
-            State.saveRoom(R.clone(this.room), this.state.user.id);
+            State.saveRoom(R.clone(this.room), this.member.id);
         }
     },
     components: {
