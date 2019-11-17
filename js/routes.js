@@ -34,7 +34,7 @@ const router = new VueRouter({
             },
             children: [
                 {
-                    path: '',
+                    path: 'poll',
                     component: RoomPoll,
                     name: 'room-poll',
                     meta: {
