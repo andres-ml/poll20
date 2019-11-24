@@ -25,11 +25,11 @@ export default {
             votes: {},
         }
     },
-    gameScore: (game, attendees = null) => {
-        const weights = {
+    gameScore: (game, attendees, weights) => {
+        weights = R.mergeLeft(weights, {
             'up': 1,
             'down': -1
-        };
+        });
         
         return R.pipe(
             R.pick(attendees === null ? Object.keys(game.votes) : attendees),

@@ -9,6 +9,28 @@ import './filters.js';
 R.merge = R.mergeDeepRight;
 R.get = R.useWith(R.path, [R.invoker(1, 'split')('.')])
 
+/**
+ * Function that allows sort tie-breaking by an array of values.
+ * E.g. if we want to sort a list of people by their name first, then age:
+ * R.sort(R.tieBreaker(person => [person.name, person.age]))
+ * Nested tie-breaking is also supported:
+ * E.g. imagine each person has a list of grades, then we can do:
+ * R.sort(R.tieBreaker(person => [person.name, person.grades]))
+ * 
+ */
+R.tieBreaker = R.curry((scoreFunction, a, b) => {
+    const toArray = score => Array.isArray(score) ? score : [score];
+    const scoreList = R.compose(R.flatten, toArray, scoreFunction);
+    const valuesA = scoreList(a);
+    const valuesB = scoreList(b);
+    for (let i = 0; i < valuesA.length; ++i) {
+        if (valuesA[i] !== valuesB[i]) {
+            return valuesA[i] - valuesB[i];
+        }
+    }
+    return 0;
+});
+
 Vue.component('fa', Fa);
 Vue.component('loading', Loading)
 Vue.component('input-item', InputItem);

@@ -95,7 +95,10 @@ export default {
                 votes: {
                     text: 'Most votes',
                     score: (game) => {
-                        return -Logic.gameScore(game, this.attendees);
+                        const voteTotal = Logic.gameScore(game, this.attendees);
+                        const downvotes = Logic.gameScore(game, this.attendees, {up: 0, down: 1});
+                        // sort first by highest vote count; break ties by the least amount of downvotes
+                        return [-voteTotal, downvotes];
                     }
                 },
                 lastPlayed: {
@@ -130,22 +133,20 @@ export default {
             return this.room.games.length === 0;
         },
         sortedGames: function() {
-            return R.pipe(
-                R.map(game => {
-                    game.score = this.sortCriteria[this.sortBy].score(game);
-                    return game;
-                }),
-                R.sortWith([
-                    R.ascend(R.prop('score')),
-                    R.ascend(R.prop('name')),
-                ]),
-            )(this.room.games);
+            const assignScoreByCurrentCriteria = game => R.merge(game, {score: this.sortCriteria[this.sortBy].score(game)});
+
+            const sort = R.compose(
+                R.sort(R.tieBreaker(R.prop('score'))),
+                R.map(assignScoreByCurrentCriteria)
+            );
+
+            return sort(this.room.games);
         },
         winningGamesThreshold: function() {
             if (this.sortBy !== 'votes') {
                 return 0;
             }
-            return this.sortedGames.filter(game => game.score === this.sortedGames[0].score).length;
+            return this.sortedGames.filter(game => game.score[0] === this.sortedGames[0].score[0]).length;
         },
     },
     methods: {
