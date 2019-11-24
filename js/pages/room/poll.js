@@ -133,11 +133,14 @@ export default {
             return this.room.games.length === 0;
         },
         sortedGames: function() {
+            const randomGenerator = new Math.seedrandom(moment().format('yyyy MM dd'));
+            const assignRandomPositionForTieBreaking = game => R.merge(game, {randomPosition: randomGenerator()});
             const assignScoreByCurrentCriteria = game => R.merge(game, {score: this.sortCriteria[this.sortBy].score(game)});
 
             const sort = R.compose(
-                R.sort(R.tieBreaker(R.prop('score'))),
-                R.map(assignScoreByCurrentCriteria)
+                R.sort(R.tieBreaker(game => [game.score, game.randomPosition])),
+                R.map(assignScoreByCurrentCriteria),
+                R.map(assignRandomPositionForTieBreaking)
             );
 
             return sort(this.room.games);
