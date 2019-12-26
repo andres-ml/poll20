@@ -1,7 +1,6 @@
 {
     "name": "Poll20",
     "short_name": "Poll20",
-    "start_url": "index.html",
     "scope" : "./",
     "icons": [
         {
