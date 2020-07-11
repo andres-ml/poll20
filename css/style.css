@@ -239,8 +239,71 @@ input[type=checkbox] {
     height: 1.6rem;
 }
 
-.tool-list .tool:not(:last-of-type) {
-    border-bottom: 1px solid gray;
+.tool-list .tool {
     padding-bottom: 10px;
     margin-bottom: 10px;
+}
+
+.tool-list .tool:not(:last-of-type) {
+    border-bottom: 1px solid whitesmoke;
+}
+
+.dice-summary {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -5px;
+}
+
+.dice-summary .dice {
+    flex: 1 0;
+    min-width: 120px;
+    text-align: center;
+    font-weight: 600px;
+    font-size: 18px;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    cursor: pointer;
+}
+
+.dice-summary .dice {
+    background: #ffae66;
+}
+.dice-summary .dice.roll-regular {
+    background: linear-gradient(295deg, #ffae66 50%, rgb(255, 216, 166) 50%);
+}
+.dice-summary .dice.roll-critical-failure {
+    background: linear-gradient(295deg, #ffae66 50%, rgb(255, 131, 131) 50%);
+}
+.dice-summary .dice.roll-critical-success {
+    background: linear-gradient(295deg, #ffae66 50%, rgb(216, 237, 69) 50%);
+}
+
+.dice-summary .dice .sides,
+.dice-summary .dice .count
+{
+    font-size: 24px;
+}
+
+.dice-summary .dice > *
+{
+    flex: 1
+}
+
+.tool > .input {
+    margin-bottom: 10px;
+}
+
+.roll-result {
+    font-size: 24px;
+    font-weight: bolder;
+    margin-right: 15px;
+}
+
+.button.is-fullwidth {
+    white-space: unset;
+    height: auto;
 }
