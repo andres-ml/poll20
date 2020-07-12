@@ -33,7 +33,7 @@ export default {
             this.presets.push(undefined)
         },
         removePreset(index) {
-            this.presets.splice(index)
+            this.presets.splice(index, 1)
         }
     },
     watch: {
