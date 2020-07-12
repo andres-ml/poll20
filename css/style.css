@@ -307,3 +307,40 @@ input[type=checkbox] {
     white-space: unset;
     height: auto;
 }
+
+.cooldown-bar {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.cooldown-bar > .cooldown-slot {
+    margin: 2px;
+}
+
+.cooldown-slot {
+    flex: 0 0 50px;
+    height: 50px;
+    padding: 5px;
+    border: 1px solid silver;
+    cursor: pointer;
+}
+
+.cooldown-slot,
+.cooldown-slot .cooldown-status
+{
+    /* border-radius: 100%; */
+}
+
+.cooldown-slot .cooldown-status {
+    height: 100%;
+}
+
+.cooldown-slot .cooldown-status.active {
+    background-color: #ff7800;
+}
+
+.cooldown-name {
+    font-size: 20px;
+    font-weight: 400;
+    text-align: center;
+}

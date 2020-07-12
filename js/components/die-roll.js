@@ -1,20 +1,10 @@
-const FormGroup = {
-    template: /*html*/`
-        <div style="display: flex" style="margin-bottom: 5px">
-            <label style="flex: 0 0 100px">{{ label }}</label>
-            <div style="flex: 1">
-                <slot/>
-            </div>
-        </div>
-    `,
-    props: {
-        label: String
-    }
-}
+import ToolOptions from './tool-options.js'
+import FormGroup from './form-group.js'
 
 export default {
     components: {
-        FormGroup
+        FormGroup,
+        ToolOptions,
     },
     filters: {
         signed(n) {
@@ -23,64 +13,48 @@ export default {
     },
     template: /*html*/`
         <div class="tool">
-            <div style="display: flex; align-items: stretch; margin-bottom: 10px">
-                <div style="flex: 1; margin-right: 10px">
-                    <div class v-if="editing">
-                        <form-group label="Preset name">
-                            <input
-                                v-model="value.name"
-                                type="text"
-                                class="input"
-                                placeholder="Basic attack"
-                            >
-                        </form-group>
-                        <form-group label="Dice list">
-                            <input
-                                v-model="value.dice"
-                                type="text"
-                                class="input"
-                                placeholder="20"
-                            >
-                        </form-group>
-                        <form-group label="Modifier">
-                            <input
-                                v-model.number="value.modifier"
-                                type="number"
-                                class="input"
-                                placeholder="E.g. +3"
-                            >
-                        </form-group>
-                        <form-group label="Delete preset">
-                            <button
-                                class="button is-fullwidth"
-                                :class="'is-' + (confirmingDeletion ? 'danger' : 'light')"
-                                @click="confirmingDeletion ? $emit('remove') : (confirmingDeletion = true)"
-                            >
-                                <span v-if="!confirmingDeletion">Delete preset</span>
-                                <span v-else>Press again to delete this preset</span>
-                            </button>
-                        </form-group>
-                    </div>
-                    <div v-else>
-                        <button
-                            class="button is-fullwidth is-outlined"
-                            :class="(loading && isFullRoll) ? 'is-loading' : ''"
-                            style="font-size: 20px"
-                            @click="roll(undefined)"
+            <tool-options
+                :editing="editing"
+                @remove="$emit('remove')"
+            >
+                <template>
+                    <button
+                        class="button is-fullwidth is-outlined"
+                        :class="(loading && isFullRoll) ? 'is-loading' : ''"
+                        style="font-size: 20px"
+                        @click="roll(undefined)"
+                    >
+                        <fa icon="dice" style="margin-right: 10px"/>
+                        Roll for {{ value.name }}
+                        <span v-if="value.modifier" style="opacity: 0.7; margin-left: 5px">({{ value.modifier | signed }})</span>
+                    </button>
+                </template>
+                <template #options>
+                    <form-group label="Preset name">
+                        <input
+                            v-model="value.name"
+                            type="text"
+                            class="input"
+                            placeholder="Basic attack"
                         >
-                            <fa icon="dice" style="margin-right: 10px"/>
-                            Roll for {{ value.name }}
-                            <span v-if="value.modifier" style="opacity: 0.7; margin-left: 5px">({{ value.modifier | signed }})</span>
-                        </button>
-                    </div>
-                </div>
-                <button
-                    class="button is-light" 
-                    style="flex: 0 0 50px; height: initial"
-                    @click="editing = !editing"
-                >
-                    <fa icon="edit"/>
-                </button>
+                    </form-group>
+                    <form-group label="Dice list">
+                        <input
+                            v-model="value.dice"
+                            type="text"
+                            class="input"
+                            placeholder="20"
+                        >
+                    </form-group>
+                    <form-group label="Modifier">
+                        <input
+                            v-model.number="value.modifier"
+                            type="number"
+                            class="input"
+                            placeholder="E.g. +3"
+                        >
+                    </form-group>
+                </template>
             </div>
             <div class="dice-summary">
                 <span
@@ -125,7 +99,7 @@ export default {
     `,
     props: {
         value: {
-            type: String,
+            type: Object,
             default: () => ({
                 name: '',
                 dice: '20',
@@ -138,7 +112,6 @@ export default {
             rolling: [],
             result: [],
             editing: this.value.name === '',
-            confirmingDeletion: false,
         }
     },
     computed: {
@@ -222,9 +195,6 @@ export default {
         },
     },
     watch: {
-        editing() {
-            this.confirmingDeletion = false
-        },
         value: {
             deep: true,
             handler(value) {
