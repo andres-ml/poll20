@@ -62,7 +62,11 @@ export default {
                     <div
                         :class="{ active: slot.active }"
                         class="cooldown-status"
-                    />
+                    >
+                        <span v-if="(index + 1) % 5 === 0" class="index-hint">
+                            {{ index + 1}}
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>

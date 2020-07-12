@@ -325,10 +325,20 @@ input[type=checkbox] {
     cursor: pointer;
 }
 
-.cooldown-slot,
 .cooldown-slot .cooldown-status
 {
-    /* border-radius: 100%; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cooldown-slot .cooldown-status .index-hint {
+    font-size: 20px;
+    color: silver;
+}
+
+.cooldown-slot .cooldown-status.active .index-hint {
+    color: #952a00;
 }
 
 .cooldown-slot .cooldown-status {
