@@ -55,7 +55,7 @@ export default {
                         >
                     </form-group>
                 </template>
-            </div>
+            </tool-options>
             <div class="dice-summary">
                 <span
                     v-for="(sides, index) in dice" :key="index"
